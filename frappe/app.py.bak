@@ -59,11 +59,6 @@ def application(request):
 
 		if frappe.local.conf.get('maintenance_mode'):
 			raise frappe.SessionStopped
-		
-		#Dbg
-		#logger.info(request.headers)
-		#logger.info(request.get_data())
-		#Dbg
 
 		make_form_dict(request)
 		frappe.local.http_request = frappe.auth.HTTPRequest()
@@ -72,9 +67,6 @@ def application(request):
 			response = frappe.handler.handle()
 
 		elif frappe.request.path.startswith("/api/"):
-			if frappe.local.form_dict.data is None:
-				frappe.local.form_dict.data = request.get_data()
-				#logger.info("Upd: " + frappe.local.form_dict.data)
 			response = frappe.api.handle()
 
 		elif frappe.request.path.startswith('/backups'):
